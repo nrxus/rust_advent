@@ -1,0 +1,28 @@
+use std::io::{self, Read};
+
+fn count(input: &str) -> i32 {
+    let mut answer = 0;
+    for c in input.chars() {
+        answer = if c == '(' { answer + 1 } else { answer - 1 }
+    }
+    answer
+}
+
+fn one() {
+    let mut input = String::new();
+    io::stdin().read_to_string(&mut input).expect("Failed to read input");
+    let answer = count(&input);
+    println!("{}", answer);
+}
+
+fn main() {
+    println!("Enter the problem: ");
+    let mut problem_number = String::new();
+    io::stdin().read_line(&mut problem_number).expect("Failed to read input");
+    let problem_number: u32 = problem_number.trim().parse().expect("Please type a number!");
+    match problem_number {
+        1 => one(),
+        2...25 => println!("Not yet implemented"),
+        _ => println!("This problem does not exist"),
+    }
+}
