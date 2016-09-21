@@ -1,4 +1,5 @@
 use one;
+use two;
 
 pub struct Answer {
     pub a: i32,
@@ -13,7 +14,8 @@ impl Problem {
     pub fn new(number: u32) -> Result<Problem, &'static str> {
         let problem = match number {
             1 => Ok(Problem { solver: Box::new(one::solve) }),
-            2...25 => Err("Not yet implemented ☹"),
+            2 => Ok(Problem { solver: Box::new(two::solve) }),
+            3...25 => Err("Not yet implemented ☹"),
             _ => Err("This problem number does not exist!"),
         };
         problem
