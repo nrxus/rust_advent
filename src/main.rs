@@ -16,9 +16,12 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input).expect("Failed to read input");
 
-    match problem_number {
+    let (a,b) = match problem_number {
         1 => one::solve(&input),
-        2...25 => println!("Not yet implemented ☹"),
-        _ => println!("This problem number does not exist!"),
-    }
+        2...25 => panic!("Not yet implemented ☹"),
+        _ => panic!("This problem number does not exist!"),
+    };
+
+    println!("solution to problem {}A: {}", problem_number, a);
+    println!("solution to problem {}B: {}", problem_number, b);
 }

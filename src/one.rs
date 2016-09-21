@@ -1,8 +1,7 @@
-pub fn solve(input: &str) {
+pub fn solve(input: &str) -> (i32, i32) {
     let count = count(&input);
     let position = find_basement(&input);
-    println!("1A: {}", count);
-    println!("1B: {}", position);
+    (count, position)
 }
 
 fn count(input: &str) -> i32 {
@@ -20,10 +19,10 @@ fn count(input: &str) -> i32 {
 }
 
 fn find_basement(input: &str) -> i32 {
-    let mut answer = 0;
+    let mut position = 0;
     let mut count = 0;
     for c in input.chars() {
-        answer += 1;
+        position += 1;
         count = if c == '(' {
             count + 1
         } else if c == ')' {
@@ -35,5 +34,5 @@ fn find_basement(input: &str) -> i32 {
             break;
         }
     }
-    answer
+    position
 }
