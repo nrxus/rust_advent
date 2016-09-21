@@ -1,8 +1,4 @@
-use std::io::{self, Read};
-
-pub fn solve() {
-    let mut input = String::new();
-    io::stdin().read_to_string(&mut input).expect("Failed to read input");
+pub fn solve(input: &str) {
     let count = count(&input);
     let position = find_basement(&input);
     println!("1A: {}", count);
