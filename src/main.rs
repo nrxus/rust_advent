@@ -26,7 +26,7 @@ fn main() {
     if env::args().len() != 2 {
         panic!("Incorrect number of parameters!");
     }
-    
+
     let problem_number = env::args().nth(1).unwrap();
     let problem_number: u32 =
         problem_number.trim().parse().expect("Please type a number for the problem (i.e., 1)!");
