@@ -1,7 +1,9 @@
-pub fn solve(input: &str) -> (i32, i32) {
+use advent_problem::Answer;
+
+pub fn solve(input: &str) -> Answer {
     let count = count(&input);
     let position = find_basement(&input);
-    (count, position)
+    Answer { a: count, b: position, }
 }
 
 fn count(input: &str) -> i32 {
