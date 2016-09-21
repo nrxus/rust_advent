@@ -3,7 +3,10 @@ use advent_problem::Answer;
 pub fn solve(input: &str) -> Answer {
     let count = count(&input);
     let position = find_basement(&input);
-    Answer { a: count, b: position, }
+    Answer {
+        a: count,
+        b: position,
+    }
 }
 
 fn count(input: &str) -> i32 {
