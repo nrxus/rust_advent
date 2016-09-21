@@ -15,10 +15,29 @@ fn count(input: &str) -> i32 {
     answer
 }
 
+fn find_basement(input: &str) -> i32 {
+    let mut answer = 0;
+    let mut count = 0;
+    for c in input.chars() {
+        answer += 1;
+        count = if c == '(' {
+            count + 1
+        } else if c == ')' {
+            count - 1
+        } else {
+            count
+        };
+        if count == -1 {
+           break;
+        }
+    }
+    answer
+}
+
 fn one() {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input).expect("Failed to read input");
-    let answer = count(&input);
+    let answer = find_basement(&input);
     println!("{}", answer);
 }
 
