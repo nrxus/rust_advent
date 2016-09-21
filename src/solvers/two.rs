@@ -27,7 +27,15 @@ struct BoxDims {
 }
 
 pub fn solve(input: &str) -> Answer {
-    let boxes: Vec<BoxDims> = input.lines()
+    let boxes = parse(input);
+    Answer {
+        a: paper_for_boxes(&boxes),
+        b: ribbon_for_boxes(&boxes),
+    }
+}
+
+fn parse(input: &str) -> Vec<BoxDims> {
+    input.lines()
         .map(|line| {
             let v: Vec<&str> = line.split(|c| c == 'X' || c == 'x').collect();
             BoxDims {
@@ -36,11 +44,7 @@ pub fn solve(input: &str) -> Answer {
                 height: v[2].parse().unwrap(),
             }
         })
-        .collect();
-    Answer {
-        a: paper_for_boxes(&boxes),
-        b: ribbon_for_boxes(&boxes),
-    }
+        .collect::<Vec<_>>();
 }
 
 fn paper_for_boxes(boxes: &Vec<BoxDims>) -> i32 {
