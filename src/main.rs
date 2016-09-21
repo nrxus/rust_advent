@@ -2,7 +2,7 @@ use std::env;
 use std::io::{self, Read};
 
 extern crate advent_of_code;
-use advent_of_code::advent_problem::Problem;
+use advent_of_code::advent_problem::ProblemBuilder;
 
 fn main() {
     if env::args().len() != 2 {
@@ -13,7 +13,7 @@ fn main() {
     let problem_number: u32 =
         problem_number.trim().parse().expect("Please type a number for the problem (i.e., 1)!");
 
-    let problem = Problem::new(problem_number);
+    let problem = ProblemBuilder::build(problem_number);
     let problem = match problem {
         Ok(p) => p,
         Err(e) => panic!(e),
