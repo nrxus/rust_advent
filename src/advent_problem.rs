@@ -6,7 +6,7 @@ pub struct Answer {
 }
 
 pub struct Problem {
-    pub solver: Box<Fn(&str) -> Answer>,
+    solver: Box<Fn(&str) -> Answer>,
 }
 
 impl Problem {
