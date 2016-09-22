@@ -13,7 +13,7 @@ fn num_houses(input: &str, num: usize) -> usize {
     let mut santas = Vec::with_capacity(num);
 
     for _ in 0..num {
-        santas.push(Santa::new(House { x: 0, y: 0 }));
+        santas.push(Santa::new());
     }
 
     houses_visited(input, &mut santas).len()
@@ -47,8 +47,8 @@ struct Santa {
 }
 
 impl Santa {
-    fn new(house: House) -> Santa {
-        Santa { house: house }
+    fn new() -> Santa {
+        Santa { house: House { x: 0, y: 0 } }
     }
 
     fn move_by(&mut self, direction: char) {
