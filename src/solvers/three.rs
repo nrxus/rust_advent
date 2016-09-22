@@ -9,6 +9,37 @@ pub fn solve(input: &str) -> Answer {
     }
 }
 
+fn num_houses(input: &str) -> usize {
+    let mut houses = HashSet::new();
+    let santa = Santa::new();
+    houses.insert(santa.house);
+
+    {
+        let mut santa = santa;
+        for c in input.chars() {
+            santa.move_by(c);
+            houses.insert(santa.house);
+        }
+    }
+
+    houses.len()
+}
+
+struct Santa {
+    house: House,
+}
+
+impl Santa {
+    fn new() -> Santa {
+        Santa { house: House { x: 0, y: 0 } }
+    }
+
+    fn move_by(&mut self, direction: char) {
+        self.house = self.house.next(direction);
+    }
+}
+
+
 #[derive(PartialEq, Eq, Hash, Copy, Clone)]
 struct House {
     x: i32,
@@ -16,7 +47,7 @@ struct House {
 }
 
 impl House {
-    fn move_to(&self, direction: char) -> House {
+    fn next(&self, direction: char) -> House {
         let (x, y) = match direction {
             '>' => (self.x + 1, self.y),
             '<' => (self.x - 1, self.y),
@@ -26,15 +57,4 @@ impl House {
         };
         House { x: x, y: y }
     }
-}
-
-fn num_houses(input: &str) -> usize {
-    let mut current = House { x: 0, y: 0 };
-    let mut houses = HashSet::new();
-    houses.insert(current);
-    for c in input.chars() {
-        current = current.move_to(c);
-        houses.insert(current);
-    }
-    houses.len()
 }
