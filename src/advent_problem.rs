@@ -14,6 +14,7 @@ impl ProblemBuilder {
             2 => Ok(Problem::new(two::solve)),
             3 => Ok(Problem::new(three::solve)),
             4 => Ok(Problem::new(four::solve)),
+            5 => Ok(Problem::new(five::solve)),
             5...25 => Err("Not yet implemented ☹"),
             _ => Err("This problem number does not exist!"),
         }
