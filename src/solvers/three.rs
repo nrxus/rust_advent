@@ -4,19 +4,36 @@ use advent_problem::Answer;
 
 pub fn solve(input: &str) -> Answer {
     Answer {
-        a: num_houses(input) as i32,
-        b: 0,
+        a: num_houses(input, 1usize) as i32,
+        b: num_houses(input, 2usize) as i32,
     }
 }
 
-fn num_houses(input: &str) -> usize {
-    let mut houses = HashSet::new();
-    let santa = Santa::new();
-    houses.insert(santa.house);
+fn num_houses(input: &str, num: usize) -> usize {
+    if num == 0 {
+        return 0;
+    }
 
-    {
-        let mut santa = santa;
-        for c in input.chars() {
+    let origin = House { x: 0, y: 0 };
+
+    let mut santas = Vec::with_capacity(num);
+
+    for _ in 0..num {
+        santas.push(Santa::new(origin));
+    }
+
+    let mut houses = HashSet::new();
+    houses.insert(origin);
+
+    let mut iter = input.chars();
+    'outer: loop {
+        for santa in &mut santas {
+            let c = iter.next();
+            let c = match c {
+                Some(v) => v,
+                None => break 'outer,
+            };
+
             santa.move_by(c);
             houses.insert(santa.house);
         }
@@ -30,8 +47,8 @@ struct Santa {
 }
 
 impl Santa {
-    fn new() -> Santa {
-        Santa { house: House { x: 0, y: 0 } }
+    fn new(house: House) -> Santa {
+        Santa { house: house }
     }
 
     fn move_by(&mut self, direction: char) {
