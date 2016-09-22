@@ -12,7 +12,8 @@ impl ProblemBuilder {
         match number {
             1 => Ok(Problem::new(one::solve)),
             2 => Ok(Problem::new(two::solve)),
-            3...25 => Err("Not yet implemented ☹"),
+            3 => Ok(Problem::new(three::solve)),
+            4...25 => Err("Not yet implemented ☹"),
             _ => Err("This problem number does not exist!"),
         }
     }
