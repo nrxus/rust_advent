@@ -44,15 +44,15 @@ fn parse(input: &str) -> Vec<BoxDims> {
                 height: v[2].parse().unwrap(),
             }
         })
-        .collect::<Vec<_>>();
+        .collect::<Vec<_>>()
 }
 
-fn paper_for_boxes(boxes: &Vec<BoxDims>) -> i32 {
-    boxes.iter().fold(0, |acc, x| acc + paper_for_box(&x))
+fn paper_for_boxes(boxes: &[BoxDims]) -> i32 {
+    boxes.iter().fold(0, |acc, x| acc + paper_for_box(x))
 }
 
-fn ribbon_for_boxes(boxes: &Vec<BoxDims>) -> i32 {
-    boxes.iter().fold(0, |acc, x| acc + ribbon_for_box(&x))
+fn ribbon_for_boxes(boxes: &[BoxDims]) -> i32 {
+    boxes.iter().fold(0, |acc, x| acc + ribbon_for_box(x))
 }
 
 fn paper_for_box(dims: &BoxDims) -> i32 {

@@ -1,8 +1,8 @@
 use advent_problem::Answer;
 
 pub fn solve(input: &str) -> Answer {
-    let count = count(&input);
-    let position = find_basement(&input);
+    let count = count(input);
+    let position = find_basement(input);
     Answer {
         a: count,
         b: position,

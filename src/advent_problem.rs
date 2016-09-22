@@ -9,13 +9,12 @@ pub struct ProblemBuilder;
 
 impl ProblemBuilder {
     pub fn build(number: u32) -> Result<Problem, &'static str> {
-        let problem = match number {
+        match number {
             1 => Ok(Problem::new(one::solve)),
             2 => Ok(Problem::new(two::solve)),
             3...25 => Err("Not yet implemented ☹"),
             _ => Err("This problem number does not exist!"),
-        };
-        problem
+        }
     }
 }
 
