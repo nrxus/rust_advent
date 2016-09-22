@@ -1,29 +1,39 @@
 use advent_problem::Answer;
 
-macro_rules! min {
-    ($x:expr) => ( $x );
-    ($x:expr, $($xs:expr),+) => {
-        {
-            use std::cmp::min;
-            min($x, min!( $($xs),+ ))
-        }
-    };
-}
-
-macro_rules! max {
-    ($x:expr) => ( $x );
-    ($x:expr, $($xs:expr),+) => {
-        {
-            use std::cmp::max;
-            max($x, max!( $($xs),+ ))
-        }
-    };
-}
-
 struct BoxDims {
     length: i32,
     width: i32,
     height: i32,
+}
+
+impl BoxDims {
+    fn paper_area(&self) -> i32 {
+        self.surface_area() + self.side_areas().iter().min().unwrap()
+    }
+
+    fn ribbon_length(&self) -> i32 {
+        self.side_perimeters().iter().min().unwrap() + self.volume()
+    }
+
+    fn surface_area(&self) -> i32 {
+        self.side_areas().iter().map(|area| 2 * area).sum()
+    }
+
+    fn volume(&self) -> i32 {
+        self.width * self.height * self.length
+    }
+
+    fn side_areas(&self) -> [i32; 3] {
+        [self.length * self.width,
+         self.width * self.height,
+         self.height * self.length]
+    }
+
+    fn side_perimeters(&self) -> [i32; 3] {
+        [2 * (self.length + self.width),
+         2 * (self.width + self.height),
+         2 * (self.height + self.length)]
+    }
 }
 
 pub fn solve(input: &str) -> Answer {
@@ -37,7 +47,9 @@ pub fn solve(input: &str) -> Answer {
 fn parse(input: &str) -> Vec<BoxDims> {
     input.lines()
         .map(|line| {
-            let v: Vec<&str> = line.split(|c| c == 'X' || c == 'x').collect();
+            let v: Vec<&str> = line.split(|c| c == 'X' || c == 'x')
+                .collect();
+
             BoxDims {
                 length: v[0].parse().unwrap(),
                 width: v[1].parse().unwrap(),
@@ -48,23 +60,9 @@ fn parse(input: &str) -> Vec<BoxDims> {
 }
 
 fn paper_for_boxes(boxes: &[BoxDims]) -> i32 {
-    boxes.iter().fold(0, |acc, x| acc + paper_for_box(x))
+    boxes.iter().map(|dims| dims.paper_area()).sum()
 }
 
 fn ribbon_for_boxes(boxes: &[BoxDims]) -> i32 {
-    boxes.iter().fold(0, |acc, x| acc + ribbon_for_box(x))
-}
-
-fn paper_for_box(dims: &BoxDims) -> i32 {
-    let side_area = dims.width * dims.height;
-    let bottom_area = dims.length * dims.width;
-    let front_area = dims.length * dims.height;
-
-    2 * side_area + 2 * bottom_area + 2 * front_area + min!(side_area, bottom_area, front_area)
-}
-
-fn ribbon_for_box(dims: &BoxDims) -> i32 {
-    let distance =
-        2 * (dims.width + dims.height + dims.length - max!(dims.width, dims.height, dims.length));
-    distance + (dims.width * dims.height * dims.length)
+    boxes.iter().map(|dims| dims.ribbon_length()).sum()
 }
