@@ -7,7 +7,7 @@ pub fn solve(input: &str) -> Answer {
     }
 }
 
-fn solution<F : Fn(&str) -> bool>(input: &str, is_nice : F) -> i32 {
+fn solution<F: Fn(&str) -> bool>(input: &str, is_nice: F) -> i32 {
     input.lines().map(|line| is_nice(line) as i32).sum()
 }
 
@@ -36,7 +36,34 @@ fn is_nice_a(input: &str) -> bool {
 }
 
 fn is_nice_b(input: &str) -> bool {
-    false
+    let mut chars = input.chars();
+    let mut last_letters = (chars.next().unwrap(), chars.next().unwrap());
+
+    let mut pairs_found = (last_letters.0 == last_letters.1) as i32;
+    let mut last_pair_letter = if pairs_found > 0 {
+        '\0'
+    } else {
+        last_letters.1
+    };
+    let mut found_repeat = false;
+
+    for c in chars {
+        if !found_repeat {
+            found_repeat = c == last_letters.0
+        }
+        if pairs_found < 2 {
+            if c == last_pair_letter {
+                pairs_found += 1;
+                last_pair_letter = '\0';
+            } else {
+                last_pair_letter = c;
+            }
+        }
+        last_letters.0 = last_letters.1;
+        last_letters.1 = c;
+    }
+
+    pairs_found > 1 && found_repeat
 }
 
 fn is_vowel(letter: char) -> bool {
