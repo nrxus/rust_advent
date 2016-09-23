@@ -8,7 +8,7 @@ pub fn solve(input: &str) -> Answer {
 }
 
 fn solution<F: Fn(&str) -> bool>(input: &str, is_nice: F) -> i32 {
-    input.lines().map(|line| is_nice(line) as i32).sum()
+    input.lines().filter(|line| is_nice(line)).count() as i32
 }
 
 fn is_nice_a(input: &str) -> bool {
@@ -40,12 +40,12 @@ fn is_nice_b(input: &str) -> bool {
     let mut last_letters = (chars.next().unwrap(), chars.next().unwrap());
 
     let mut pairs_found = (last_letters.0 == last_letters.1) as i32;
+    let mut found_repeat = false;
     let mut last_pair_letter = if pairs_found > 0 {
         '\0'
     } else {
         last_letters.1
     };
-    let mut found_repeat = false;
 
     for c in chars {
         if !found_repeat {
