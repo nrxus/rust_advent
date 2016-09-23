@@ -2,16 +2,16 @@ use advent_problem::Answer;
 
 pub fn solve(input: &str) -> Answer {
     Answer {
-        a: solution_a(input),
-        b: -1,
+        a: solution(input, is_nice_a),
+        b: solution(input, is_nice_b),
     }
 }
 
-fn solution_a(input: &str) -> i32 {
+fn solution<F : Fn(&str) -> bool>(input: &str, is_nice : F) -> i32 {
     input.lines().map(|line| is_nice(line) as i32).sum()
 }
 
-fn is_nice(input: &str) -> bool {
+fn is_nice_a(input: &str) -> bool {
     let mut vowel_count = 0;
     let mut found_pair = false;
     let mut last_letter = '\0';
@@ -33,6 +33,10 @@ fn is_nice(input: &str) -> bool {
     }
 
     (vowel_count > 2) && found_pair
+}
+
+fn is_nice_b(input: &str) -> bool {
+    false
 }
 
 fn is_vowel(letter: char) -> bool {
