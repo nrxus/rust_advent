@@ -1,39 +1,46 @@
-use std::collections::HashSet;
 use advent_problem::Answer;
 
 pub fn solve(input: &str) -> Answer {
     Answer {
-        a: solution_a("aeious"),
+        a: solution_a(input),
         b: -1,
     }
 }
 
 fn solution_a(input: &str) -> i32 {
-    let mut answer = 0;
-    for line in input.lines() {
-        answer = answer + is_nice(line) as i32;
-    }
-    answer
+    input.lines().map(|line| is_nice(line) as i32).sum()
 }
 
 fn is_nice(input: &str) -> bool {
     let mut vowel_count = 0;
-    let mut vowels = HashSet::new();
-    vowels.insert('a');
-    vowels.insert('e');
-    vowels.insert('i');
-    vowels.insert('o');
-    vowels.insert('u');
-    let mut last_letter = input.chars().next().unwrap();
-
-    if input.contains("ab") || input.contains("cd") || input.contains("pq") ||
-       input.contains("xy") {
-        return false;
-    }
+    let mut found_pair = false;
+    let mut last_letter = '\0';
 
     for c in input.chars() {
-        vowel_count = vowel_count + vowels.contains(&c) as i32;
+        if is_invalid(last_letter, c) {
+            return false;
+        }
+
+        if vowel_count < 3 {
+            vowel_count += is_vowel(c) as i32;
+        }
+
+        if !found_pair {
+            found_pair = last_letter == c;
+        }
+
+        last_letter = c;
     }
 
-    vowel_count > 2
+    (vowel_count > 2) && found_pair
+}
+
+fn is_vowel(letter: char) -> bool {
+    letter == 'a' || letter == 'e' || letter == 'i' || letter == 'o' || letter == 'u'
+}
+
+fn is_invalid(previous: char, current: char) -> bool {
+    let mut pair = previous.to_string();
+    pair.push(current);
+    pair == "ab" || pair == "cd" || pair == "pq" || pair == "xy"
 }
